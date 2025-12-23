@@ -138,7 +138,7 @@ export function BillsList() {
                   </span>
                 </td>
                 <td className="px-4 py-4 text-right">
-                  <span className="font-semibold text-foreground">${bill.amount.toFixed(2)}</span>
+                  <span className="font-semibold text-foreground">₹{bill.amount.toFixed(2)}</span>
                 </td>
                 <td className="px-4 py-4 text-right">
                   {bill.status !== "paid" ? (

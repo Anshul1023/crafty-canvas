@@ -38,13 +38,13 @@ const Analytics = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-card border border-border rounded-xl p-5">
             <p className="text-sm text-muted-foreground">Average Monthly Spending</p>
-            <p className="text-2xl font-bold text-foreground mt-1">$2,917</p>
+            <p className="text-2xl font-bold text-foreground mt-1">₹2,917</p>
             <p className="text-xs text-success mt-1">-8% from last year</p>
           </div>
           <div className="bg-card border border-border rounded-xl p-5">
             <p className="text-sm text-muted-foreground">Highest Spending Month</p>
             <p className="text-2xl font-bold text-foreground mt-1">April</p>
-            <p className="text-xs text-muted-foreground mt-1">$3,908 total</p>
+            <p className="text-xs text-muted-foreground mt-1">₹3,908 total</p>
           </div>
           <div className="bg-card border border-border rounded-xl p-5">
             <p className="text-sm text-muted-foreground">Top Category</p>
@@ -69,10 +69,10 @@ const Analytics = () => {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 14%, 90%)" vertical={false} />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'hsl(220, 10%, 50%)', fontSize: 12 }} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(220, 10%, 50%)', fontSize: 12 }} tickFormatter={(v) => `$${v / 1000}k`} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(220, 10%, 50%)', fontSize: 12 }} tickFormatter={(v) => `₹${v / 1000}k`} />
                   <Tooltip
                     contentStyle={{ backgroundColor: 'hsl(0, 0%, 100%)', border: '1px solid hsl(220, 14%, 90%)', borderRadius: '8px' }}
-                    formatter={(value: number) => [`$${value.toLocaleString()}`, 'Expenses']}
+                    formatter={(value: number) => [`₹${value.toLocaleString()}`, 'Expenses']}
                   />
                   <Area type="monotone" dataKey="expenses" stroke="hsl(142, 70%, 45%)" strokeWidth={2} fill="url(#expenseGrad)" />
                 </AreaChart>
@@ -100,7 +100,7 @@ const Analytics = () => {
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value: number, name: string) => [`$${value}`, name]}
+                    formatter={(value: number, name: string) => [`₹${value}`, name]}
                     contentStyle={{ backgroundColor: 'hsl(0, 0%, 100%)', border: '1px solid hsl(220, 14%, 90%)', borderRadius: '8px' }}
                   />
                 </PieChart>

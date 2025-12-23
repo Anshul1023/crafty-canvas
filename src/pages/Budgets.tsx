@@ -33,12 +33,12 @@ const Budgets = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <p className="text-sm text-muted-foreground">Total Monthly Budget</p>
-              <p className="text-3xl font-bold text-foreground">$1,700.00</p>
+              <p className="text-3xl font-bold text-foreground">₹1,700.00</p>
             </div>
             <div className="text-right">
               <p className="text-sm text-muted-foreground">Spent so far</p>
-              <p className="text-3xl font-bold text-foreground">$1,360.00</p>
-              <p className="text-sm text-success">$340.00 remaining</p>
+              <p className="text-3xl font-bold text-foreground">₹1,360.00</p>
+              <p className="text-sm text-success">₹340.00 remaining</p>
             </div>
           </div>
           <div className="mt-4">
@@ -69,7 +69,7 @@ const Budgets = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Spent</span>
-                    <span className="font-medium text-foreground">${budget.spent}</span>
+                    <span className="font-medium text-foreground">₹{budget.spent}</span>
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden">
                     <div
@@ -79,7 +79,7 @@ const Budgets = () => {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Limit</span>
-                    <span className="text-muted-foreground">${budget.limit}</span>
+                    <span className="text-muted-foreground">₹{budget.limit}</span>
                   </div>
                 </div>
               </div>
