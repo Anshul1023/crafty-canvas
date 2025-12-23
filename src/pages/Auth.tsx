@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Wallet, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Wallet, Mail, Lock, Eye, EyeOff, Loader2, User } from "lucide-react";
 import { z } from "zod";
 
 const authSchema = z.object({
@@ -17,27 +17,13 @@ const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const navigate = useNavigate();
   const { toast } = useToast();
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
-        navigate("/");
-      }
-    });
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        navigate("/");
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
+  const { signIn, signUp } = useAuth();
 
   const validateForm = () => {
     try {
@@ -66,61 +52,36 @@ const Auth = () => {
 
     try {
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
-          password,
-        });
+        const { error } = await signIn(email.trim(), password);
 
         if (error) {
-          if (error.message.includes("Invalid login credentials")) {
-            toast({
-              title: "Login Failed",
-              description: "Invalid email or password. Please check your credentials.",
-              variant: "destructive",
-            });
-          } else {
-            toast({
-              title: "Login Failed",
-              description: error.message,
-              variant: "destructive",
-            });
-          }
+          toast({
+            title: "Login Failed",
+            description: error,
+            variant: "destructive",
+          });
         } else {
           toast({
             title: "Welcome back!",
             description: "You have successfully logged in.",
           });
+          navigate("/");
         }
       } else {
-        const redirectUrl = `${window.location.origin}/`;
-        
-        const { error } = await supabase.auth.signUp({
-          email: email.trim(),
-          password,
-          options: {
-            emailRedirectTo: redirectUrl,
-          },
-        });
+        const { error } = await signUp(email.trim(), password, name);
 
         if (error) {
-          if (error.message.includes("User already registered")) {
-            toast({
-              title: "Account Exists",
-              description: "This email is already registered. Please login instead.",
-              variant: "destructive",
-            });
-          } else {
-            toast({
-              title: "Sign Up Failed",
-              description: error.message,
-              variant: "destructive",
-            });
-          }
+          toast({
+            title: "Sign Up Failed",
+            description: error,
+            variant: "destructive",
+          });
         } else {
           toast({
             title: "Account Created!",
             description: "You have been logged in successfully.",
           });
+          navigate("/");
         }
       }
     } catch (error) {
@@ -174,6 +135,23 @@ const Auth = () => {
 
           {/* Form */}
           <form onSubmit={handleAuth} className="space-y-4">
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
@@ -234,6 +212,13 @@ const Auth = () => {
               )}
             </Button>
           </form>
+
+          {/* API Integration Note */}
+          <div className="mt-4 p-3 bg-muted/50 rounded-lg">
+            <p className="text-xs text-muted-foreground text-center">
+              Connect your own API in <code className="text-primary">src/hooks/useAuth.tsx</code>
+            </p>
+          </div>
         </div>
 
         {/* Footer */}
