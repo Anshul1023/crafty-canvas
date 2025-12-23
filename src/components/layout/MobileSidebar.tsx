@@ -1,7 +1,9 @@
 import { X, LayoutDashboard, Receipt, CalendarClock, PieChart, Settings, LogOut, Wallet, TrendingUp } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -18,6 +20,19 @@ interface MobileSidebarProps {
 
 export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    await signOut();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
+    onClose();
+    navigate("/auth");
+  };
 
   if (!isOpen) return null;
 
@@ -69,6 +84,11 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 px-4 py-6 border-t border-sidebar-border space-y-1">
+          {user && (
+            <div className="px-3 py-2 mb-2">
+              <p className="text-xs text-sidebar-foreground/50 truncate">{user.email}</p>
+            </div>
+          )}
           <Link
             to="/settings"
             onClick={onClose}
@@ -77,10 +97,24 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             <Settings className="w-5 h-5" />
             Settings
           </Link>
-          <button className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/10 transition-all duration-200 w-full">
-            <LogOut className="w-5 h-5" />
-            Logout
-          </button>
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/10 transition-all duration-200 w-full"
+            >
+              <LogOut className="w-5 h-5" />
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/auth"
+              onClick={onClose}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-primary hover:bg-primary/10 transition-all duration-200"
+            >
+              <LogOut className="w-5 h-5" />
+              Login
+            </Link>
+          )}
         </div>
       </aside>
     </>

@@ -80,7 +80,7 @@ export function RecentTransactions() {
                   "font-semibold text-sm",
                   transaction.amount > 0 ? "text-success" : "text-foreground"
                 )}>
-                  {transaction.amount > 0 ? "+" : ""}${Math.abs(transaction.amount).toFixed(2)}
+                  {transaction.amount > 0 ? "+" : ""}₹{Math.abs(transaction.amount).toFixed(2)}
                 </p>
                 <p className="text-xs text-muted-foreground">{transaction.date}</p>
               </div>

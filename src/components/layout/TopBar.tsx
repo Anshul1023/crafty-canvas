@@ -1,13 +1,40 @@
-import { Bell, Search, Menu, Plus } from "lucide-react";
+import { Bell, Search, Menu, Plus, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate, Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface TopBarProps {
   onMenuClick?: () => void;
 }
 
 export function TopBar({ onMenuClick }: TopBarProps) {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    await signOut();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
+    navigate("/auth");
+  };
+
+  const getInitials = (email?: string) => {
+    if (!email) return "U";
+    return email.charAt(0).toUpperCase();
+  };
+
   return (
     <header className="h-16 border-b border-border bg-card/50 backdrop-blur-lg sticky top-0 z-50">
       <div className="flex items-center justify-between h-full px-4 lg:px-6">
@@ -44,16 +71,36 @@ export function TopBar({ onMenuClick }: TopBarProps) {
             <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full" />
           </Button>
 
-          <div className="flex items-center gap-3 pl-3 border-l border-border">
-            <Avatar className="w-9 h-9">
-              <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" />
-              <AvatarFallback className="bg-primary text-primary-foreground text-sm">JD</AvatarFallback>
-            </Avatar>
-            <div className="hidden md:block">
-              <p className="text-sm font-medium">John Doe</p>
-              <p className="text-xs text-muted-foreground">Premium Plan</p>
-            </div>
-          </div>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center gap-3 pl-3 border-l border-border cursor-pointer">
+                  <Avatar className="w-9 h-9">
+                    <AvatarImage src="" />
+                    <AvatarFallback className="bg-primary text-primary-foreground text-sm">
+                      {getInitials(user.email)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="hidden md:block">
+                    <p className="text-sm font-medium">{user.email?.split("@")[0]}</p>
+                    <p className="text-xs text-muted-foreground">Premium Plan</p>
+                  </div>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={handleLogout} className="gap-2 text-destructive">
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link to="/auth">
+              <Button variant="outline" size="sm">
+                Login
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </header>

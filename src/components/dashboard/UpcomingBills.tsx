@@ -74,7 +74,7 @@ export function UpcomingBills() {
             </div>
             
             <div className="text-right">
-              <p className="font-semibold text-foreground text-sm">${bill.amount.toFixed(2)}</p>
+              <p className="font-semibold text-foreground text-sm">₹{bill.amount.toFixed(2)}</p>
               {bill.status === "paid" ? (
                 <span className="text-xs text-success font-medium">Paid</span>
               ) : (

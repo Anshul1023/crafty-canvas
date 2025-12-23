@@ -24,7 +24,7 @@ const Index = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="Total Balance"
-            value="$24,563.00"
+            value="₹24,563.00"
             change="+12.5%"
             changeType="positive"
             icon={Wallet}
@@ -32,7 +32,7 @@ const Index = () => {
           />
           <StatCard
             title="Monthly Income"
-            value="$5,500.00"
+            value="₹5,500.00"
             change="+8.2%"
             changeType="positive"
             icon={TrendingUp}
@@ -40,7 +40,7 @@ const Index = () => {
           />
           <StatCard
             title="Monthly Expenses"
-            value="$2,847.50"
+            value="₹2,847.50"
             change="-4.3%"
             changeType="positive"
             icon={TrendingDown}
@@ -48,7 +48,7 @@ const Index = () => {
           />
           <StatCard
             title="Savings Goal"
-            value="$8,200.00"
+            value="₹8,200.00"
             change="82%"
             changeType="neutral"
             icon={PiggyBank}

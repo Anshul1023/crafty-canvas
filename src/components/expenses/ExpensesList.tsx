@@ -67,7 +67,7 @@ export function ExpensesList() {
                   {expense.date}
                 </td>
                 <td className="px-4 py-4 text-right">
-                  <span className="font-semibold text-foreground">-${expense.amount.toFixed(2)}</span>
+                  <span className="font-semibold text-foreground">-₹{expense.amount.toFixed(2)}</span>
                 </td>
                 <td className="px-4 py-4 text-right">
                   <DropdownMenu>

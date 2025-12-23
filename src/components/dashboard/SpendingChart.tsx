@@ -58,7 +58,7 @@ export function SpendingChart() {
               axisLine={false} 
               tickLine={false}
               tick={{ fill: 'hsl(220, 10%, 50%)', fontSize: 12 }}
-              tickFormatter={(value) => `$${value / 1000}k`}
+              tickFormatter={(value) => `₹${value / 1000}k`}
             />
             <Tooltip
               contentStyle={{
@@ -68,7 +68,7 @@ export function SpendingChart() {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               }}
               formatter={(value: number, name: string) => [
-                `$${value.toLocaleString()}`,
+                `₹${value.toLocaleString()}`,
                 name.charAt(0).toUpperCase() + name.slice(1)
               ]}
             />
