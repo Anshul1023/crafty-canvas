@@ -1,73 +1,111 @@
-# Welcome to your Lovable project
+# Expense Tracker
 
-## Project info
+A modern, feature-rich expense tracking application built with React and TypeScript. Track your spending, manage budgets, monitor bills, and gain insights into your financial habits.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Dashboard Overview** - Get a quick snapshot of your financial health with spending charts, category breakdowns, and upcoming bills
+- **Expense Management** - Add, edit, and categorize your daily expenses with ease
+- **Budget Planning** - Set and monitor budgets for different spending categories
+- **Bill Tracking** - Never miss a payment with bill reminders and due date tracking
+- **Analytics** - Visualize your spending patterns with interactive charts and reports
+- **Cross-Platform** - Available as a web app and native Android/iOS application
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: Tailwind CSS, shadcn/ui components
+- **State Management**: React Context API, TanStack Query
+- **Charts**: Recharts
+- **Routing**: React Router v6
+- **Mobile**: Capacitor for native Android/iOS builds
+- **Backend**: Supabase (Database, Authentication)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v18 or higher)
+- npm or yarn
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/expense-tracker.git
+cd expense-tracker
+```
 
-Follow these steps:
+2. Install dependencies:
+```bash
+npm install
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open your browser and navigate to `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Building for Production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Mobile App Build (Android)
 
-## What technologies are used for this project?
+1. Build the web app:
+```bash
+npm run build
+```
 
-This project is built with:
+2. Add the Android platform:
+```bash
+npx cap add android
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+3. Sync the build:
+```bash
+npx cap sync android
+```
 
-## How can I deploy this project?
+4. Open in Android Studio:
+```bash
+npx cap open android
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+5. Build the APK from Android Studio: **Build → Build Bundle(s) / APK(s) → Build APK(s)**
 
-## Can I connect a custom domain to my Lovable project?
+## Project Structure
 
-Yes, you can!
+```
+src/
+├── components/
+│   ├── dashboard/     # Dashboard widgets and charts
+│   ├── expenses/      # Expense management components
+│   ├── bills/         # Bill tracking components
+│   ├── layout/        # App layout components
+│   └── ui/            # Reusable UI components
+├── contexts/          # React Context providers
+├── hooks/             # Custom React hooks
+├── pages/             # Route pages
+└── lib/               # Utility functions
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Screenshots
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+*Coming soon*
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Author
+
+Developed with passion for better financial management.
