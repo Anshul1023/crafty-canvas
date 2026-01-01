@@ -1,14 +1,23 @@
 import { cn } from "@/lib/utils";
+import { useExpenses } from "@/contexts/ExpenseContext";
 
-const categories = [
-  { name: "Food & Drinks", amount: 450, budget: 600, color: "bg-chart-1", percentage: 75 },
-  { name: "Transport", amount: 180, budget: 200, color: "bg-chart-2", percentage: 90 },
-  { name: "Entertainment", amount: 120, budget: 150, color: "bg-chart-3", percentage: 80 },
-  { name: "Shopping", amount: 340, budget: 400, color: "bg-chart-4", percentage: 85 },
-  { name: "Utilities", amount: 220, budget: 250, color: "bg-chart-5", percentage: 88 },
-];
+type BudgetState = "normal" | "warning" | "exceeded";
+
+const getBudgetState = (percentage: number): BudgetState => {
+  if (percentage >= 100) return "exceeded";
+  if (percentage >= 80) return "warning";
+  return "normal";
+};
+
+const stateColors: Record<BudgetState, string> = {
+  normal: "bg-success",
+  warning: "bg-warning",
+  exceeded: "bg-destructive",
+};
 
 export function CategoryBreakdown() {
+  const { budgets, getSpentByCategory } = useExpenses();
+
   return (
     <div className="bg-card rounded-xl border border-border p-5">
       <div className="mb-6">
@@ -17,22 +26,31 @@ export function CategoryBreakdown() {
       </div>
       
       <div className="space-y-4">
-        {categories.map((category) => (
-          <div key={category.name} className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="font-medium text-foreground">{category.name}</span>
-              <span className="text-muted-foreground">
-                ${category.amount} <span className="text-muted-foreground/60">/ ${category.budget}</span>
-              </span>
+        {budgets.slice(0, 5).map((budget) => {
+          const spent = getSpentByCategory(budget.category);
+          const percentage = budget.limit > 0 ? Math.round((spent / budget.limit) * 100) : 0;
+          const state = getBudgetState(percentage);
+          
+          return (
+            <div key={budget.id} className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="font-medium text-foreground">{budget.category}</span>
+                <span className="text-muted-foreground">
+                  ₹{spent.toLocaleString("en-IN")}{" "}
+                  <span className="text-muted-foreground/60">
+                    / ₹{budget.limit.toLocaleString("en-IN")}
+                  </span>
+                </span>
+              </div>
+              <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <div
+                  className={cn("h-full rounded-full transition-all duration-500", stateColors[state])}
+                  style={{ width: `${Math.min(percentage, 100)}%` }}
+                />
+              </div>
             </div>
-            <div className="h-2 bg-muted rounded-full overflow-hidden">
-              <div
-                className={cn("h-full rounded-full transition-all duration-500", category.color)}
-                style={{ width: `${category.percentage}%` }}
-              />
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
