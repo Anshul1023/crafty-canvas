@@ -94,9 +94,6 @@ src/
 └── lib/               # Utility functions
 ```
 
-## Screenshots
-
-*Coming soon*
 
 ## Contributing
 
